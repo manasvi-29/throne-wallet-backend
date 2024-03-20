@@ -1,0 +1,186 @@
+const express = require("express");
+const {
+  generateRecoveryPhrase,
+  createWallet,
+  verifyRecoveryPhrase,
+  importToken,
+  getAllTransactions,
+  importWallet,
+  sendToken,
+  verifyPhraseForImportWallet,
+  getPrivateKey,
+  decryptRecoveryPhrase,
+  encryptRecoveryPhrase,
+  getAllAssetsOfWallet,
+  getAllReceivedToken,
+  updateWalletWithPhrase,
+  generateToken,
+  generateCreds,
+  encodeAPIKey,
+  getTokenMetadata,
+  getPhraseWords,
+  getParticularTokenOfWallet,
+  verifyPin,
+  updatePassword,
+  getAllNotifications,
+  getERC20TransactionHistory,
+  getParticularTransaction,
+  getNonERC20TransactionHistory,
+  saveContact,
+  getAllSavedContactForWallet,
+  getReferralCode,
+} = require("../controllers/controller");
+const {
+  refreshauth,
+  authorization,
+  authentication,
+  verifyAPIKey,
+} = require("../middlewares/auth");
+
+const router = express.Router();
+
+router.post("/encode-apikey", encodeAPIKey);
+router.post("/create_Wallet", verifyAPIKey, createWallet);
+router.get(
+  "/create_Wallet/generate-recovery-phrase",
+  verifyAPIKey,
+  generateRecoveryPhrase
+);
+router.post(
+  "/create_Wallet/:walletId/secure-wallet",
+  verifyAPIKey,
+  updateWalletWithPhrase
+);
+router.post(
+  "/create_Wallet/secure_wallet/recovery_phrase_verification",
+  verifyAPIKey,
+  verifyRecoveryPhrase
+);
+router.post(
+  "/import_token/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  importToken
+);
+router.post(
+  "/send_token/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  sendToken
+);
+router.get(
+  "/get_all_transaction/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getAllTransactions
+);
+router.post(
+  "/import_wallet/verify_phrase_import_wallet",
+  verifyAPIKey,
+  verifyPhraseForImportWallet
+);
+router.post(
+  "/import_wallet/:walletId/set_new_password",
+  verifyAPIKey,
+  importWallet
+);
+router.get(
+  "/get_private_key/:wallet_address",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getPrivateKey
+);
+router.post("/decrypt-recovery-phrase", verifyAPIKey, decryptRecoveryPhrase);
+router.post("/encrypt-recovery-phrase", verifyAPIKey, encryptRecoveryPhrase);
+router.get(
+  "/get-all-assets-for-wallet/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getAllAssetsOfWallet
+);
+router.get(
+  "/get-all-received-token/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getAllReceivedToken
+);
+// router.get('/api-access-credentials',generateCreds)
+router.get("/refresh", verifyAPIKey, refreshauth, generateToken);
+router.get("/get-token-metadata", verifyAPIKey, getTokenMetadata);
+router.get(
+  "/get_phrase_words/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getPhraseWords
+);
+router.get(
+  "/get-particular-token/:walletId/:token_name",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getParticularTokenOfWallet
+);
+router.post("/verify-pin/:walletId", verifyAPIKey, verifyPin);
+router.put(
+  "/update-password/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  updatePassword
+);
+router.get(
+  "/notifications/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getAllNotifications
+);
+router.get(
+  "/get_erc20_transaction_list/:walletId",
+   verifyAPIKey,
+  authentication,
+  authorization,
+  getERC20TransactionHistory
+);
+router.get(
+  "/get_nonerc20_transaction_list/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getNonERC20TransactionHistory
+);
+router.get(
+  "/get_particular_transaction/:walletId/:erc_20/:block_number",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getParticularTransaction
+);
+router.post(
+  "/save-contact/:walletId", 
+  verifyAPIKey,
+  authentication,
+  authorization,
+  saveContact
+);
+router.get(
+  "/get-saved-contacts/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getAllSavedContactForWallet
+);
+router.get("/generate-referral-code/:walletId",
+  verifyAPIKey,
+  authentication,
+  authorization,
+  getReferralCode
+)
+module.exports = router;
